@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Grille d'évaluation — Promotion Professeur 2028</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A41;
+    --navy-soft:#2C415F;
+    --paper:#F7F5F0;
+    --paper-2:#EFEBE2;
+    --gold:#C8A052;
+    --gold-soft:#E7D4AC;
+    --green:#2E7D5B;
+    --green-bg:#E4F0EA;
+    --red:#A23B3B;
+    --red-bg:#F5E6E4;
+    --slate:#5A6B7D;
+    --line:#DDD6C8;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--navy);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding-bottom:96px;
+    -webkit-font-smoothing:antialiased;
+  }
+  body.lang-ar{direction:rtl;}
+
+  /* ===== Header ===== */
+  header{
+    background:var(--navy);
+    color:var(--paper);
+    padding:28px 20px 22px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(135deg, rgba(200,160,82,0.08) 0 2px, transparent 2px 26px);
+    pointer-events:none;
+  }
+  .header-inner{position:relative; max-width:760px; margin:0 auto;}
+  .eyebrow{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gold-soft); font-weight:600; margin-bottom:8px;
+  }
+  .lang-ar .eyebrow{letter-spacing:0;}
+  h1{
+    font-family:'Lora',serif; font-weight:700; font-size:26px; line-height:1.25;
+    margin:0 0 6px;
+  }
+  .lang-ar h1{font-family:'Amiri',serif; font-size:28px;}
+  .subtitle{font-size:13.5px; color:#C7CFDA; line-height:1.5; max-width:560px;}
+
+  .lang-toggle{
+    position:absolute; top:0; inset-inline-end:0;
+    display:flex; gap:6px; background:rgba(255,255,255,0.08);
+    border-radius:999px; padding:4px;
+  }
+  .lang-toggle button{
+    border:none; background:transparent; color:#C7CFDA;
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    padding:6px 12px; border-radius:999px; cursor:pointer;
+    transition:background .15s, color .15s;
+  }
+  .lang-toggle button.active{background:var(--gold); color:var(--navy);}
+
+  /* ===== Layout ===== */
+  main{max-width:760px; margin:0 auto; padding:22px 16px 0;}
+
+  .seal-note{
+    display:flex; gap:10px; align-items:flex-start;
+    background:var(--paper-2); border:1px solid var(--line);
+    border-radius:var(--radius); padding:12px 14px; margin-bottom:20px;
+    font-size:12.5px; color:var(--slate); line-height:1.6;
+  }
+  .seal-note .glyph{
+    font-family:'Lora',serif; font-weight:700; font-size:18px; color:var(--gold);
+    flex-shrink:0; line-height:1.4;
+  }
+
+  /* Step indicator */
+  .steps{display:flex; gap:8px; margin-bottom:22px;}
+  .step-pill{
+    flex:1; text-align:center; padding:10px 8px; border-radius:10px;
+    border:1px solid var(--line); background:#fff;
+    font-size:12px; font-weight:600; color:var(--slate);
+    cursor:pointer; transition:all .15s;
+  }
+  .step-pill.active{background:var(--navy); color:var(--paper); border-color:var(--navy);}
+  .step-pill .num{
+    display:block; font-family:'Lora',serif; font-size:18px; margin-bottom:2px;
+  }
+  .lang-ar .step-pill .num{font-family:'Amiri',serif;}
+
+  section.panel{display:none;}
+  section.panel.active{display:block; animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  /* ===== Cards ===== */
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 18px 16px; margin-bottom:16px;
+  }
+  .card h2{
+    font-family:'Lora',serif; font-size:17px; margin:0 0 4px; font-weight:600;
+  }
+  .lang-ar .card h2{font-family:'Amiri',serif; font-size:19px;}
+  .card .hint{font-size:12.5px; color:var(--slate); margin:0 0 14px; line-height:1.55;}
+
+  /* radios / checkboxes */
+  .option{
+    display:flex; gap:10px; align-items:flex-start;
+    padding:11px 12px; border:1px solid var(--line); border-radius:10px;
+    margin-bottom:8px; cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .option:hover{border-color:var(--gold);}
+  .option.checked{border-color:var(--gold); background:#FBF7EE;}
+  .option input{margin-top:3px; accent-color:var(--gold); flex-shrink:0;}
+  .option label{font-size:13.5px; line-height:1.55; cursor:pointer;}
+  .option .pts{color:var(--gold); font-weight:700;}
+
+  /* Variant block */
+  .variant-block{
+    border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:10px;
+  }
+  .variant-block.satisfied{border-color:var(--green); background:var(--green-bg);}
+  .variant-title{font-weight:700; font-size:13.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px;}
+  .badge{
+    font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px;
+    background:var(--line); color:var(--navy); letter-spacing:.04em;
+  }
+  .variant-block.satisfied .badge{background:var(--green); color:#fff;}
+
+  /* result banner */
+  .result-banner{
+    border-radius:var(--radius); padding:16px 18px; margin-bottom:16px;
+    display:flex; gap:12px; align-items:center; font-size:14px; font-weight:600;
+    border:1px solid transparent;
+  }
+  .result-banner.ok{background:var(--green-bg); color:var(--green); border-color:#BFE0CF;}
+  .result-banner.no{background:var(--red-bg); color:var(--red); border-color:#E6C9C6;}
+  .result-banner.pending{background:var(--paper-2); color:var(--slate); border-color:var(--line);}
+  .result-banner .icon{font-size:22px; flex-shrink:0;}
+
+  /* ===== Scoring grid ===== */
+  .field-group{margin-bottom:10px;}
+  .field-row{
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    padding:10px 0; border-bottom:1px solid var(--line);
+  }
+  .field-row:last-child{border-bottom:none;}
+  .field-label{font-size:13px; line-height:1.5; flex:1;}
+  .field-label .meta{display:block; font-size:11.5px; color:var(--slate); margin-top:2px;}
+  .field-input{display:flex; align-items:center; gap:6px; flex-shrink:0;}
+  .field-input input[type=number]{
+    width:64px; padding:7px 8px; border:1px solid var(--line); border-radius:8px;
+    font-family:'Inter',sans-serif; font-size:13px; text-align:center; color:var(--navy);
+    background:var(--paper);
+  }
+  .field-input input[type=checkbox]{
+    width:20px; height:20px; accent-color:var(--gold);
+  }
+  .field-input .unit{font-size:11.5px; color:var(--slate); white-space:nowrap;}
+  .field-pts{
+    min-width:54px; text-align:end; font-weight:700; font-size:13px; color:var(--navy-soft);
+    font-family:'Lora',serif;
+  }
+  .lang-ar .field-pts{font-family:'Amiri',serif;}
+
+  /* category accordion */
+  details.category{
+    border:1px solid var(--line); border-radius:var(--radius); margin-bottom:12px;
+    background:#fff; overflow:hidden;
+  }
+  details.category summary{
+    list-style:none; cursor:pointer; padding:14px 18px;
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    font-family:'Lora',serif; font-weight:600; font-size:15px;
+  }
+  .lang-ar details.category summary{font-family:'Amiri',serif; font-size:16.5px;}
+  details.category summary::-webkit-details-marker{display:none;}
+  details.category summary .chev{
+    font-size:13px; color:var(--slate); transition:transform .2s; flex-shrink:0;
+  }
+  details.category[open] summary .chev{transform:rotate(90deg);}
+  details.category .cat-total{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13px; color:var(--gold);
+    background:var(--paper-2); padding:3px 10px; border-radius:999px;
+  }
+  details.category .body{padding:0 18px 14px;}
+
+  /* ===== Sticky tally bar ===== */
+  .tally-bar{
+    position:fixed; bottom:0; inset-inline:0; z-index:50;
+    background:var(--navy); color:var(--paper);
+    box-shadow:0 -6px 24px rgba(0,0,0,0.18);
+  }
+  .tally-inner{
+    max-width:760px; margin:0 auto; padding:12px 16px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .ring-wrap{position:relative; width:54px; height:54px; flex-shrink:0;}
+  .ring-wrap svg{transform:rotate(-90deg);}
+  .ring-bg{fill:none; stroke:rgba(255,255,255,0.14); stroke-width:5;}
+  .ring-fg{fill:none; stroke:var(--gold); stroke-width:5; stroke-linecap:round; transition:stroke-dasharray .3s ease, stroke .3s ease;}
+  .ring-fg.complete{stroke:var(--green);}
+  .ring-label{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700;
+  }
+  .tally-text{flex:1; min-width:0;}
+  .tally-text .verdict{font-size:13px; font-weight:700; margin-bottom:2px;}
+  .tally-text .verdict.ok{color:#9BE3BF;}
+  .tally-text .verdict.no{color:#F0B4AE;}
+  .tally-text .breakdown{font-size:11.5px; color:#AEB9C8; line-height:1.5;}
+  .tally-text .breakdown b{color:var(--paper); font-weight:700;}
+
+  /* ===== Footer nav ===== */
+  .nav-buttons{
+    display:flex; gap:10px; margin:18px 0 8px;
+  }
+  .btn{
+    flex:1; padding:13px 16px; border-radius:10px; border:1px solid var(--navy);
+    background:var(--navy); color:var(--paper); font-family:'Inter',sans-serif;
+    font-weight:600; font-size:14px; cursor:pointer; transition:opacity .15s;
+  }
+  .lang-ar .btn{font-family:'Cairo',sans-serif;}
+  .btn.secondary{background:transparent; color:var(--navy);}
+  .btn:active{opacity:.85;}
+
+  footer{
+    text-align:center; font-size:11px; color:var(--slate); padding:18px 16px 0;
+  }
+
+  /* RTL specific */
+  .lang-ar .field-row{direction:rtl;}
+  .lang-ar .seal-note{direction:rtl;}
+  .lang-ar .option label, .lang-ar .field-label, .lang-ar .card .hint, .lang-ar .subtitle{font-family:'Cairo',sans-serif;}
+  .lang-ar .field-pts, .lang-ar .cat-total{direction:ltr;}
+
+  @media (max-width:480px){
+    h1{font-size:21px;}
+    .card{padding:14px 14px 12px;}
+    details.category summary{padding:12px 14px;}
+    details.category .body{padding:0 14px 12px;}
+  }
+</style>
+</head>
+<body class="lang-fr">
+
+<header>
+  <div class="header-inner">
+    <div class="lang-toggle">
+      <button id="btn-fr" class="active" onclick="setLang('fr')">FR</button>
+      <button id="btn-ar" onclick="setLang('ar')">AR</button>
+    </div>
+    <div class="eyebrow" data-fr="Ministère de l'Enseignement Supérieur — Session Novembre 2028" data-ar="وزارة التعليم العالي — دورة نوفمبر 2028">Ministère de l'Enseignement Supérieur — Session Novembre 2028</div>
+    <h1 data-fr="Grille d'évaluation — Promotion au grade de Professeur" data-ar="شبكة التقييم — الترقية إلى رتبة أستاذ">Grille d'évaluation — Promotion au grade de Professeur</h1>
+    <div class="subtitle" data-fr="Outil d'auto-évaluation basé sur le projet de grille applicable à partir de novembre 2028. Vérifiez votre recevabilité, puis calculez votre score pédagogique et scientifique." data-ar="أداة للتقييم الذاتي مبنية على مشروع الشبكة المطبق ابتداءً من نوفمبر 2028. تحقق من شروط القبول، ثم احسب نقاطك البيداغوجية والعلمية.">Outil d'auto-évaluation basé sur le projet de grille applicable à partir de novembre 2028. Vérifiez votre recevabilité, puis calculez votre score pédagogique et scientifique.</div>
+  </div>
+</header>
+
+<main>
+  <div class="seal-note">
+    <span class="glyph">§</span>
+    <span data-fr="Cet outil est une aide à l'auto-évaluation et ne constitue pas une décision officielle. Référez-vous toujours au texte officiel de la grille pour le dépôt de votre dossier." data-ar="هذه الأداة وسيلة مساعدة للتقييم الذاتي ولا تُعدّ قرارًا رسميًا. يُرجى الرجوع دائمًا إلى النص الرسمي للشبكة عند تقديم ملفكم.">Cet outil est une aide à l'auto-évaluation et ne constitue pas une décision officielle. Référez-vous toujours au texte officiel de la grille pour le dépôt de votre dossier.</span>
+  </div>
+
+  <div class="steps">
+    <div class="step-pill active" data-step="1" onclick="goStep(1)">
+      <span class="num">1</span>
+      <span data-fr="Recevabilité" data-ar="شروط القبول">Recevabilité</span>
+    </div>
+    <div class="step-pill" data-step="2" onclick="goStep(2)">
+      <span class="num">2</span>
+      <span data-fr="Pédagogie" data-ar="البيداغوجيا">Pédagogie</span>
+    </div>
+    <div class="step-pill" data-step="3" onclick="goStep(3)">
+      <span class="num">3</span>
+      <span data-fr="Recherche" data-ar="البحث">Recherche</span>
+    </div>
+    <div class="step-pill" data-step="4" onclick="goStep(4)">
+      <span class="num">4</span>
+      <span data-fr="Synthèse" data-ar="الخلاصة">Synthèse</span>
+    </div>
+  </div>
+
+  <!-- ============ STEP 1 : ADMISSIBILITY ============ -->
+  <section class="panel active" id="panel-1">
+
+    <div class="card">
+      <h2 data-fr="1. Recevabilité administrative" data-ar="1. القبول الإداري">1. Recevabilité administrative</h2>
+      <p class="hint" data-fr="Le candidat doit justifier de cinq (5) années d'exercice effectif en qualité de maître de conférences classe « A »." data-ar="يجب على المترشح أن يثبت خمس (5) سنوات من الممارسة الفعلية بصفة أستاذ محاضر قسم «أ».">Le candidat doit justifier de cinq (5) années d'exercice effectif en qualité de maître de conférences classe « A ».</p>
+      <div class="option" onclick="setAdmin(true)" id="opt-admin-yes">
+        <input type="radio" name="admin" id="admin-yes">
+        <label for="admin-yes" data-fr="J'ai au moins 5 ans d'exercice effectif en MCA" data-ar="لدي 5 سنوات على الأقل من الممارسة الفعلية كأستاذ محاضر «أ»">J'ai au moins 5 ans d'exercice effectif en MCA</label>
+      </div>
+      <div class="option" onclick="setAdmin(false)" id="opt-admin-no">
+        <input type="radio" name="admin" id="admin-no">
+        <label for="admin-no" data-fr="J'ai moins de 5 ans d'exercice" data-ar="لدي أقل من 5 سنوات من الممارسة">J'ai moins de 5 ans d'exercice</label>
+      </div>
+      <div class="result-banner pending" id="admin-result">
+        <span class="icon">•</span>
+        <span data-fr="Sélectionnez une option ci-dessus." data-ar="اختر أحد الخيارين أعلاه.">Sélectionnez une option ci-dessus.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 data-fr="2. Domaine de formation" data-ar="2. مجال التكوين">2. Domaine de formation</h2>
+      <p class="hint" data-fr="La recevabilité scientifique dépend du domaine. Choisissez votre domaine pour afficher les variantes correspondantes." data-ar="يعتمد القبول العلمي على المجال. اختر مجالك لعرض الصيغ المقابلة.">La recevabilité scientifique dépend du domaine. Choisissez votre domaine pour afficher les variantes correspondantes.</p>
+      <div class="option" onclick="setDomain('st')" id="opt-domain-st">
+        <input type="radio" name="domain" id="domain-st">
+        <label for="domain-st" data-fr="Sciences et Technologie" data-ar="العلوم والتكنولوجيا">Sciences et Technologie</label>
+      </div>
+      <div class="option" onclick="setDomain('shs')" id="opt-domain-shs">
+        <input type="radio" name="domain" id="domain-shs">
+        <label for="domain-shs" data-fr="Sciences Humaines et Sociales" data-ar="العلوم الإنسانية والاجتماعية">Sciences Humaines et Sociales</label>
+      </div>
+    </div>
+
+    <!-- Sciences & Technologie variants -->
+    <div class="card" id="card-st" style="display:none;">
+      <h2 data-fr="Critères de recevabilité scientifique — Sciences et Technologie" data-ar="معايير القبول العلمي — العلوم والتكنولوجيا">Critères de recevabilité scientifique — Sciences et Technologie</h2>
+
+      <div class="variant-block" id="st-v1">
+        <div class="variant-title">
+          <span data-fr="Variante 1" data-ar="الصيغة 1">Variante 1</span>
+          <span class="badge" id="st-v1-badge" data-fr-ok="Satisfaite" data-ar-ok="مستوفاة" data-fr-no="Non satisfaite" data-ar-no="غير مستوفاة">Non satisfaite</span>
+        </div>
+        <div class="option" onclick="toggleCheck('st-v1-pub')" id="opt-st-v1-pub">
+          <input type="checkbox" id="cb-st-v1-pub">
+          <label for="cb-st-v1-pub" data-fr="1 publication A+ (1er ou 2e auteur) OU 2 publications A (1er auteur dans l'une, 2e min. dans l'autre) OU 1 publication A (1er auteur) + 2 publications B (1er auteur dans l'une, 2e min. dans l'autre)" data-ar="1 منشور A+ (مؤلف أول أو ثاني) أو 2 منشورات A (مؤلف أول في أحدهما، وثاني على الأقل في الآخر) أو 1 منشور A (مؤلف أول) + 2 منشورات B (مؤلف أول في أحدهما، وثاني على الأقل في الآخر)">1 publication A+ (1er ou 2e auteur) OU 2 publications A (1er auteur dans l'une, 2e min. dans l'autre) OU 1 publication A (1er auteur) + 2 publications B (1er auteur dans l'une, 2e min. dans l'autre)</label>
+        </div>
+        <div class="option" onclick="toggleCheck('st-v1-enc')" id="opt-st-v1-enc">
+          <input type="checkbox" id="cb-st-v1-enc">
+          <label for="cb-st-v1-enc" data-fr="Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)" data-ar="تأطير/تأطير مشترك لأطروحة دكتوراه ممنوحة أو تأطير 2 مذكرات ماستر-ستارت أب ممنوحة أو تأطير 6 مذكرات ماستر ممنوحة (أو ما يعادلها للمدارس العليا)">Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)</label>
+        </div>
+      </div>
+
+      <div class="variant-block" id="st-v2">
+        <div class="variant-title">
+          <span data-fr="Variante 2" data-ar="الصيغة 2">Variante 2</span>
+          <span class="badge" id="st-v2-badge" data-fr-ok="Satisfaite" data-ar-ok="مستوفاة" data-fr-no="Non satisfaite" data-ar-no="غير مستوفاة">Non satisfaite</span>
+        </div>
+        <div class="option" onclick="toggleCheck('st-v2-pub')" id="opt-st-v2-pub">
+          <input type="checkbox" id="cb-st-v2-pub">
+          <label for="cb-st-v2-pub" data-fr="1 publication A (1er auteur) + 1 brevet OMPI-PCT enregistré et publié OU 2 brevets INAPI enregistrés et publiés" data-ar="1 منشور A (مؤلف أول) + 1 براءة اختراع OMPI-PCT مسجلة ومنشورة أو 2 براءتي اختراع INAPI مسجلتين ومنشورتين">1 publication A (1er auteur) + 1 brevet OMPI-PCT enregistré et publié OU 2 brevets INAPI enregistrés et publiés</label>
+        </div>
+        <div class="option" onclick="toggleCheck('st-v2-enc')" id="opt-st-v2-enc">
+          <input type="checkbox" id="cb-st-v2-enc">
+          <label for="cb-st-v2-enc" data-fr="Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)" data-ar="تأطير/تأطير مشترك لأطروحة دكتوراه ممنوحة أو تأطير 2 مذكرات ماستر-ستارت أب ممنوحة أو تأطير 6 مذكرات ماستر ممنوحة (أو ما يعادلها للمدارس العليا)">Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHS variants -->
+    <div class="card" id="card-shs" style="display:none;">
+      <h2 data-fr="Critères de recevabilité scientifique — Sciences Humaines et Sociales" data-ar="معايير القبول العلمي — العلوم الإنسانية والاجتماعية">Critères de recevabilité scientifique — Sciences Humaines et Sociales</h2>
+
+      <div class="variant-block" id="shs-v1">
+        <div class="variant-title">
+          <span data-fr="Variante 1" data-ar="الصيغة 1">Variante 1</span>
+          <span class="badge" id="shs-v1-badge" data-fr-ok="Satisfaite" data-ar-ok="مستوفاة" data-fr-no="Non satisfaite" data-ar-no="غير مستوفاة">Non satisfaite</span>
+        </div>
+        <div class="option" onclick="toggleCheck('shs-v1-pub')" id="opt-shs-v1-pub">
+          <input type="checkbox" id="cb-shs-v1-pub">
+          <label for="cb-shs-v1-pub" data-fr="1 publication A+ ou A (1er ou 2e auteur) OU 2 publications B (1er auteur dans l'une, 2e min. dans l'autre) OU 1 publication B (1er auteur) + 2 publications C (1er auteur dans les deux)" data-ar="1 منشور A+ أو A (مؤلف أول أو ثاني) أو 2 منشورات B (مؤلف أول في أحدهما، وثاني على الأقل في الآخر) أو 1 منشور B (مؤلف أول) + 2 منشورات C (مؤلف أول في كلاهما)">1 publication A+ ou A (1er ou 2e auteur) OU 2 publications B (1er auteur dans l'une, 2e min. dans l'autre) OU 1 publication B (1er auteur) + 2 publications C (1er auteur dans les deux)</label>
+        </div>
+        <div class="option" onclick="toggleCheck('shs-v1-enc')" id="opt-shs-v1-enc">
+          <input type="checkbox" id="cb-shs-v1-enc">
+          <label for="cb-shs-v1-enc" data-fr="Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)" data-ar="تأطير/تأطير مشترك لأطروحة دكتوراه ممنوحة أو تأطير 2 مذكرات ماستر-ستارت أب ممنوحة أو تأطير 6 مذكرات ماستر ممنوحة (أو ما يعادلها للمدارس العليا)">Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)</label>
+        </div>
+      </div>
+
+      <div class="variant-block" id="shs-v2">
+        <div class="variant-title">
+          <span data-fr="Variante 2" data-ar="الصيغة 2">Variante 2</span>
+          <span class="badge" id="shs-v2-badge" data-fr-ok="Satisfaite" data-ar-ok="مستوفاة" data-fr-no="Non satisfaite" data-ar-no="غير مستوفاة">Non satisfaite</span>
+        </div>
+        <div class="option" onclick="toggleCheck('shs-v2-pub')" id="opt-shs-v2-pub">
+          <input type="checkbox" id="cb-shs-v2-pub">
+          <label for="cb-shs-v2-pub" data-fr="1 brevet INAPI enregistré et publié + 1 publication B (1er auteur)" data-ar="1 براءة اختراع INAPI مسجلة ومنشورة + 1 منشور B (مؤلف أول)">1 brevet INAPI enregistré et publié + 1 publication B (1er auteur)</label>
+        </div>
+        <div class="option" onclick="toggleCheck('shs-v2-enc')" id="opt-shs-v2-enc">
+          <input type="checkbox" id="cb-shs-v2-enc">
+          <label for="cb-shs-v2-enc" data-fr="Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)" data-ar="تأطير/تأطير مشترك لأطروحة دكتوراه ممنوحة أو تأطير 2 مذكرات ماستر-ستارت أب ممنوحة أو تأطير 6 مذكرات ماستر ممنوحة (أو ما يعادلها للمدارس العليا)">Encadrement/co-encadrement d'1 thèse soutenue OU encadrement de 2 mémoires Master-startup soutenus OU encadrement de 6 mémoires Master soutenus (ou équivalent écoles supérieures)</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-banner pending" id="eligibility-result">
+      <span class="icon">•</span>
+      <span data-fr="Complétez les sections ci-dessus pour voir votre statut de recevabilité." data-ar="أكمل الأقسام أعلاه لمعرفة حالة قبولكم.">Complétez les sections ci-dessus pour voir votre statut de recevabilité.</span>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn" onclick="goStep(2)" data-fr="Continuer vers Pédagogie →" data-ar="← الانتقال إلى البيداغوجيا">Continuer vers Pédagogie →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 2 : PEDAGOGY ============ -->
+  <section class="panel" id="panel-2">
+
+    <div class="card">
+      <h2 data-fr="Seuil minimal — Pédagogie" data-ar="الحد الأدنى — البيداغوجيا">Seuil minimal — Pédagogie</h2>
+      <p class="hint" data-fr="Il faut capitaliser un minimum de 150 points dans cette section (toutes catégories confondues)." data-ar="يجب جمع 150 نقطة على الأقل في هذا القسم (بجميع الفئات).">Il faut capitaliser un minimum de 150 points dans cette section (toutes catégories confondues).</p>
+    </div>
+
+    <details class="category" open>
+      <summary><span data-fr="1.1 Les enseignements" data-ar="1.1 التدريس"><span class="chev">▸</span> 1.1 Les enseignements</span><span class="cat-total" data-cat="enseignements">0 pts</span></summary>
+      <div class="body" id="cat-enseignements"></div>
+    </details>
+
+    <details class="category">
+      <summary><span data-fr="1.2 Les activités pédagogiques" data-ar="1.2 الأنشطة البيداغوجية"><span class="chev">▸</span> 1.2 Les activités pédagogiques</span><span class="cat-total" data-cat="activites-pedago">0 pts</span></summary>
+      <div class="body" id="cat-activites-pedago"></div>
+    </details>
+
+    <div class="result-banner" id="pedago-result">
+      <span class="icon">•</span>
+      <span></span>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" onclick="goStep(1)" data-fr="← Recevabilité" data-ar="← شروط القبول">← Recevabilité</button>
+      <button class="btn" onclick="goStep(3)" data-fr="Continuer vers Recherche →" data-ar="← الانتقال إلى البحث">Continuer vers Recherche →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 3 : RESEARCH ============ -->
+  <section class="panel" id="panel-3">
+
+    <div class="card">
+      <h2 data-fr="Seuil minimal — Activités de recherche" data-ar="الحد الأدنى — أنشطة البحث">Seuil minimal — Activités de recherche</h2>
+      <p class="hint" data-fr="Il faut capitaliser un minimum de 250 points (Sciences et Technologie) ou 200 points (Sciences Humaines et Sociales)." data-ar="يجب جمع 250 نقطة على الأقل (العلوم والتكنولوجيا) أو 200 نقطة (العلوم الإنسانية والاجتماعية).">Il faut capitaliser un minimum de 250 points (Sciences et Technologie) ou 200 points (Sciences Humaines et Sociales).</p>
+    </div>
+
+    <details class="category" open>
+      <summary><span data-fr="2.1 Publications & ouvrages" data-ar="2.1 المنشورات والكتب"><span class="chev">▸</span> 2.1 Publications & ouvrages</span><span class="cat-total" data-cat="publications">0 pts</span></summary>
+      <div class="body" id="cat-publications"></div>
+    </details>
+
+    <details class="category">
+      <summary><span data-fr="2.2 Communications & colloques" data-ar="2.2 المداخلات والملتقيات"><span class="chev">▸</span> 2.2 Communications & colloques</span><span class="cat-total" data-cat="communications">0 pts</span></summary>
+      <div class="body" id="cat-communications"></div>
+    </details>
+
+    <details class="category">
+      <summary><span data-fr="2.3 Brevets" data-ar="2.3 براءات الاختراع"><span class="chev">▸</span> 2.3 Brevets</span><span class="cat-total" data-cat="brevets">0 pts</span></summary>
+      <div class="body" id="cat-brevets"></div>
+    </details>
+
+    <details class="category">
+      <summary><span data-fr="2.4 Encadrement doctoral" data-ar="2.4 تأطير الدكتوراه"><span class="chev">▸</span> 2.4 Encadrement doctoral</span><span class="cat-total" data-cat="encadrement">0 pts</span></summary>
+      <div class="body" id="cat-encadrement"></div>
+    </details>
+
+    <details class="category">
+      <summary><span data-fr="2.5 Projets, expertise & autres activités" data-ar="2.5 المشاريع والخبرة وأنشطة أخرى"><span class="chev">▸</span> 2.5 Projets, expertise & autres activités</span><span class="cat-total" data-cat="projets">0 pts</span></summary>
+      <div class="body" id="cat-projets"></div>
+    </details>
+
+    <div class="result-banner" id="recherche-result">
+      <span class="icon">•</span>
+      <span></span>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" onclick="goStep(2)" data-fr="← Pédagogie" data-ar="← البيداغوجيا">← Pédagogie</button>
+      <button class="btn" onclick="goStep(4)" data-fr="Voir la synthèse →" data-ar="← عرض الخلاصة">Voir la synthèse →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 4 : SUMMARY ============ -->
+  <section class="panel" id="panel-4">
+
+    <div class="card">
+      <h2 data-fr="3. Fonctions et responsabilités administratives" data-ar="3. المهام والمسؤوليات الإدارية">3. Fonctions et responsabilités administratives</h2>
+      <p class="hint" data-fr="Une seule responsabilité est prise en compte : la mieux notée." data-ar="يتم احتساب مسؤولية واحدة فقط: الأعلى تنقيطًا.">Une seule responsabilité est prise en compte : la mieux notée.</p>
+      <div class="option" onclick="setFonction('decret')" id="opt-fonction-decret">
+        <input type="radio" name="fonction" id="fonction-decret">
+        <label for="fonction-decret" data-fr="Poste nommé par décret — <span class='pts'>10 pts</span>" data-ar="منصب يُعيَّن بمرسوم — <span class='pts'>10 نقاط</span>">Poste nommé par décret — <span class="pts">10 pts</span></label>
+      </div>
+      <div class="option" onclick="setFonction('arrete')" id="opt-fonction-arrete">
+        <input type="radio" name="fonction" id="fonction-arrete">
+        <label for="fonction-arrete" data-fr="Poste nommé par arrêté ministériel — <span class='pts'>6 pts</span>" data-ar="منصب يُعيَّن بقرار وزاري — <span class='pts'>6 نقاط</span>">Poste nommé par arrêté ministériel — <span class="pts">6 pts</span></label>
+      </div>
+      <div class="option" onclick="setFonction('decision')" id="opt-fonction-decision">
+        <input type="radio" name="fonction" id="fonction-decision">
+        <label for="fonction-decision" data-fr="Poste nommé par décision du responsable de l'établissement — <span class='pts'>3 pts</span>" data-ar="منصب يُعيَّن بقرار من مسؤول المؤسسة — <span class='pts'>3 نقاط</span>">Poste nommé par décision du responsable de l'établissement — <span class="pts">3 pts</span></label>
+      </div>
+      <div class="option" onclick="setFonction('none')" id="opt-fonction-none">
+        <input type="radio" name="fonction" id="fonction-none">
+        <label for="fonction-none" data-fr="Aucune responsabilité administrative" data-ar="لا توجد مسؤولية إدارية">Aucune responsabilité administrative</label>
+      </div>
+    </div>
+
+    <div class="card" id="summary-card">
+      <h2 data-fr="Synthèse du dossier" data-ar="خلاصة الملف">Synthèse du dossier</h2>
+      <div id="summary-content"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" onclick="goStep(3)" data-fr="← Recherche" data-ar="← البحث">← Recherche</button>
+      <button class="btn secondary" onclick="resetAll()" data-fr="Réinitialiser tout" data-ar="إعادة تعيين الكل">Réinitialiser tout</button>
+    </div>
+  </section>
+
+  <footer data-fr="Basé sur le projet de grille CUN — version du 16/06/2025, applicable session novembre 2028." data-ar="مبني على مشروع شبكة اللجنة الجامعية الوطنية — نسخة 16/06/2025، مطبقة في دورة نوفمبر 2028.">Basé sur le projet de grille CUN — version du 16/06/2025, applicable session novembre 2028.</footer>
+</main>
+
+<!-- ===== Sticky tally bar ===== -->
+<div class="tally-bar">
+  <div class="tally-inner">
+    <div class="ring-wrap">
+      <svg width="54" height="54" viewBox="0 0 54 54">
+        <circle class="ring-bg" cx="27" cy="27" r="22"/>
+        <circle class="ring-fg" id="ring-fg" cx="27" cy="27" r="22" stroke-dasharray="0 138"/>
+      </svg>
+      <div class="ring-label" id="ring-label">0%</div>
+    </div>
+    <div class="tally-text">
+      <div class="verdict" id="tally-verdict" data-fr="Recevabilité à vérifier" data-ar="القبول قيد التحقق">Recevabilité à vérifier</div>
+      <div class="breakdown" id="tally-breakdown"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   STATE
+   ============================================================ */
+let lang = 'fr';
+const state = {
+  adminOk: null,
+  domain: null, // 'st' | 'shs'
+  checks: {}, // variant checkboxes
+  fonction: null,
+  fields: {} // field id -> numeric value
+};
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+function setLang(l){
+  lang = l;
+  document.body.classList.toggle('lang-ar', l === 'ar');
+  document.body.classList.toggle('lang-fr', l === 'fr');
+  document.documentElement.lang = l;
+  document.getElementById('btn-fr').classList.toggle('active', l==='fr');
+  document.getElementById('btn-ar').classList.toggle('active', l==='ar');
+  document.querySelectorAll('[data-fr]').forEach(el=>{
+    const txt = l==='ar' ? el.getAttribute('data-ar') : el.getAttribute('data-fr');
+    if(txt !== null) el.innerHTML = txt;
+  });
+  // update dynamically-built field labels, meta text, and units
+  document.querySelectorAll('.field-label .lbl, .field-label .meta, .field-input .unit').forEach(el=>{
+    const txt = l==='ar' ? el.getAttribute('data-ar') : el.getAttribute('data-fr');
+    if(txt !== null) el.textContent = txt;
+  });
+  renderEligibility();
+  renderTally();
+}
+
+/* ============================================================
+   STEP NAV
+   ============================================================ */
+function goStep(n){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.step-pill').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+n).classList.add('active');
+  document.querySelector('.step-pill[data-step="'+n+'"]').classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ============================================================
+   ADMISSIBILITY (Step 1)
+   ============================================================ */
+function setAdmin(val){
+  state.adminOk = val;
+  document.getElementById('opt-admin-yes').classList.toggle('checked', val===true);
+  document.getElementById('opt-admin-no').classList.toggle('checked', val===false);
+  document.getElementById('admin-yes').checked = val===true;
+  document.getElementById('admin-no').checked = val===false;
+  const res = document.getElementById('admin-result');
+  if(val){
+    res.className = 'result-banner ok';
+    res.querySelector('.icon').textContent = '✓';
+    res.querySelector('span:last-child').textContent = lang==='ar'
+      ? 'الشرط الإداري مستوفى (5 سنوات أو أكثر).'
+      : "Condition administrative remplie (≥ 5 ans).";
+  } else {
+    res.className = 'result-banner no';
+    res.querySelector('.icon').textContent = '✕';
+    res.querySelector('span:last-child').textContent = lang==='ar'
+      ? 'الشرط الإداري غير مستوفى. لا يمكن قبول الملف.'
+      : "Condition administrative non remplie. Le dossier n'est pas recevable.";
+  }
+  renderEligibility();
+  renderTally();
+}
+
+function setDomain(d){
+  state.domain = d;
+  document.getElementById('opt-domain-st').classList.toggle('checked', d==='st');
+  document.getElementById('opt-domain-shs').classList.toggle('checked', d==='shs');
+  document.getElementById('domain-st').checked = d==='st';
+  document.getElementById('domain-shs').checked = d==='shs';
+  document.getElementById('card-st').style.display = d==='st' ? '' : 'none';
+  document.getElementById('card-shs').style.display = d==='shs' ? '' : 'none';
+  renderEligibility();
+  renderTally();
+}
+
+function toggleCheck(key){
+  state.checks[key] = !state.checks[key];
+  document.getElementById('opt-'+key).classList.toggle('checked', state.checks[key]);
+  document.getElementById('cb-'+key).checked = state.checks[key];
+  renderEligibility();
+  renderTally();
+}
+
+function renderEligibility(){
+  const res = document.getElementById('eligibility-result');
+  let variantSatisfied = false;
+  let variantLabel = '';
+
+  if(state.domain === 'st'){
+    const v1 = !!(state.checks['st-v1-pub'] && state.checks['st-v1-enc']);
+    const v2 = !!(state.checks['st-v2-pub'] && state.checks['st-v2-enc']);
+    document.getElementById('st-v1').classList.toggle('satisfied', v1);
+    document.getElementById('st-v2').classList.toggle('satisfied', v2);
+    setBadge('st-v1-badge', v1);
+    setBadge('st-v2-badge', v2);
+    if(v1) { variantSatisfied = true; variantLabel = lang==='ar' ? 'الصيغة 1 (العلوم والتكنولوجيا)' : 'Variante 1 (Sciences et Technologie)'; }
+    else if(v2) { variantSatisfied = true; variantLabel = lang==='ar' ? 'الصيغة 2 (العلوم والتكنولوجيا)' : 'Variante 2 (Sciences et Technologie)'; }
+  } else if(state.domain === 'shs'){
+    const v1 = !!(state.checks['shs-v1-pub'] && state.checks['shs-v1-enc']);
+    const v2 = !!(state.checks['shs-v2-pub'] && state.checks['shs-v2-enc']);
+    document.getElementById('shs-v1').classList.toggle('satisfied', v1);
+    document.getElementById('shs-v2').classList.toggle('satisfied', v2);
+    setBadge('shs-v1-badge', v1);
+    setBadge('shs-v2-badge', v2);
+    if(v1) { variantSatisfied = true; variantLabel = lang==='ar' ? 'الصيغة 1 (العلوم الإنسانية والاجتماعية)' : 'Variante 1 (Sciences Humaines et Sociales)'; }
+    else if(v2) { variantSatisfied = true; variantLabel = lang==='ar' ? 'الصيغة 2 (العلوم الإنسانية والاجتماعية)' : 'Variante 2 (Sciences Humaines et Sociales)'; }
+  }
+
+  if(state.adminOk === null || state.domain === null){
+    res.className = 'result-banner pending';
+    res.querySelector('.icon').textContent = '•';
+    res.querySelector('span:last-child').textContent = lang==='ar'
+      ? 'أكمل الأقسام أعلاه لمعرفة حالة قبولكم.'
+      : 'Complétez les sections ci-dessus pour voir votre statut de recevabilité.';
+  } else if(state.adminOk === false){
+    res.className = 'result-banner no';
+    res.querySelector('.icon').textContent = '✕';
+    res.querySelector('span:last-child').textContent = lang==='ar'
+      ? 'الملف غير مقبول إداريًا (شرط 5 سنوات غير مستوفى).'
+      : "Dossier non recevable administrativement (condition de 5 ans non remplie).";
+  } else if(variantSatisfied){
+    res.className = 'result-banner ok';
+    res.querySelector('.icon').textContent = '✓';
+    res.querySelector('span:last-child').textContent = (lang==='ar'
+      ? 'الملف مقبول علميًا عبر: '
+      : 'Dossier scientifiquement recevable via : ') + variantLabel;
+  } else {
+    res.className = 'result-banner no';
+    res.querySelector('.icon').textContent = '✕';
+    res.querySelector('span:last-child').textContent = lang==='ar'
+      ? 'لم تُستوفَ أي صيغة من صيغ القبول العلمي بعد.'
+      : "Aucune variante de recevabilité scientifique n'est satisfaite pour le moment.";
+  }
+  state._eligible = (state.adminOk===true) && variantSatisfied;
+}
+
+function setBadge(id, satisfied){
+  const el = document.getElementById(id);
+  el.classList.toggle('satisfied', satisfied); // no-op for badge itself, parent handled separately
+  el.textContent = satisfied
+    ? (lang==='ar' ? el.getAttribute('data-ar-ok') : el.getAttribute('data-fr-ok'))
+    : (lang==='ar' ? el.getAttribute('data-ar-no') : el.getAttribute('data-fr-no'));
+}
+
+/* ============================================================
+   SCORING FIELDS DEFINITION
+   Each field: { id, cat, type: 'number'|'checkbox', pts(value)->points,
+                  labelFr, labelAr, metaFr, metaAr, max, step, unitFr, unitAr }
+   ============================================================ */
+const FIELDS = [
+  // ---- 1.1 Enseignements ----
+  {id:'ens-cours', cat:'enseignements', type:'number', step:1, max:10,
+    labelFr:"Enseignement de cours", labelAr:"التدريس (محاضرات)",
+    metaFr:"6 pts/semestre, plafond 60 pts", metaAr:"6 نقاط/فصل، الحد الأقصى 60 نقطة",
+    unitFr:"semestres", unitAr:"فصول",
+    pts:v=>Math.min(v*6, 60)},
+  {id:'ens-cours-eng', cat:'enseignements', type:'checkbox',
+    labelFr:"Cours enseignés en anglais (bonus)", labelAr:"تدريس باللغة الإنجليزية (مكافأة)",
+    metaFr:"+5 pts", metaAr:"+5 نقاط",
+    pts:v=>v?5:0},
+
+  {id:'ens-atelier', cat:'enseignements', type:'number', step:1, max:10,
+    labelFr:"Cours sous forme d'atelier (graduation)", labelAr:"محاضرات في شكل ورشة (التدرج)",
+    metaFr:"4 pts/semestre, plafond 40 pts", metaAr:"4 نقاط/فصل، الحد الأقصى 40 نقطة",
+    unitFr:"semestres", unitAr:"فصول",
+    pts:v=>Math.min(v*4, 40)},
+  {id:'ens-atelier-eng', cat:'enseignements', type:'checkbox',
+    labelFr:"Atelier enseigné en anglais (bonus)", labelAr:"الورشة باللغة الإنجليزية (مكافأة)",
+    metaFr:"+3 pts", metaAr:"+3 نقاط",
+    pts:v=>v?3:0},
+
+  {id:'ens-td', cat:'enseignements', type:'number', step:1, max:10,
+    labelFr:"Travaux dirigés (TD)", labelAr:"الأعمال الموجهة",
+    metaFr:"3 pts/semestre, plafond 30 pts", metaAr:"3 نقاط/فصل، الحد الأقصى 30 نقطة",
+    unitFr:"semestres", unitAr:"فصول",
+    pts:v=>Math.min(v*3, 30)},
+  {id:'ens-td-eng', cat:'enseignements', type:'checkbox',
+    labelFr:"TD enseignés en anglais (bonus)", labelAr:"الأعمال الموجهة باللغة الإنجليزية (مكافأة)",
+    metaFr:"+2 pts", metaAr:"+2 نقاط",
+    pts:v=>v?2:0},
+
+  {id:'ens-tp', cat:'enseignements', type:'number', step:1, max:10,
+    labelFr:"Encadrement de travaux pratiques (TP)", labelAr:"تأطير الأعمال التطبيقية",
+    metaFr:"3 pts/semestre, plafond 30 pts", metaAr:"3 نقاط/فصل، الحد الأقصى 30 نقطة",
+    unitFr:"semestres", unitAr:"فصول",
+    pts:v=>Math.min(v*3, 30)},
+  {id:'ens-tp-eng', cat:'enseignements', type:'checkbox',
+    labelFr:"TP enseignés en anglais (bonus)", labelAr:"الأعمال التطبيقية باللغة الإنجليزية (مكافأة)",
+    metaFr:"+2 pts", metaAr:"+2 نقاط",
+    pts:v=>v?2:0},
+
+  {id:'ens-ligne', cat:'enseignements', type:'number', step:1, max:8,
+    labelFr:"Matière en ligne validée (Cours/TD/TP)", labelAr:"مادة عن بعد مصادق عليها (محاضرة/أعمال موجهة/تطبيقية)",
+    metaFr:"5 pts/matière, plafond 20 pts", metaAr:"5 نقاط/مادة، الحد الأقصى 20 نقطة",
+    unitFr:"matières", unitAr:"مواد",
+    pts:v=>Math.min(v*5, 20)},
+  {id:'ens-ligne-eng', cat:'enseignements', type:'number', step:1, max:4,
+    labelFr:"… dont matières en anglais (bonus)", labelAr:"… منها مواد باللغة الإنجليزية (مكافأة)",
+    metaFr:"+5 pts/matière", metaAr:"+5 نقاط/مادة",
+    unitFr:"matières", unitAr:"مواد",
+    pts:v=>v*5},
+
+  // ---- 1.2 Activités pédagogiques ----
+  {id:'poly-cours', cat:'activites-pedago', type:'number', step:1, max:2,
+    labelFr:"Polycopié de cours validé et en ligne", labelAr:"مطبوعة دروس مصادق عليها وموجودة عن بعد",
+    metaFr:"12 pts/polycopié, plafond 24 pts", metaAr:"12 نقطة/مطبوعة، الحد الأقصى 24 نقطة",
+    unitFr:"polycopiés", unitAr:"مطبوعات",
+    pts:v=>Math.min(v*12, 24)},
+  {id:'poly-cours-eng', cat:'activites-pedago', type:'checkbox',
+    labelFr:"… rédigé en anglais (bonus)", labelAr:"… مكتوبة باللغة الإنجليزية (مكافأة)",
+    metaFr:"+8 pts", metaAr:"+8 نقاط",
+    pts:v=>v?8:0},
+
+  {id:'ouvrage-pedago', cat:'activites-pedago', type:'checkbox',
+    labelFr:"Ouvrage pédagogique édité (ISBN, validé)", labelAr:"كتاب بيداغوجي منشور (ISBN، مصادق عليه)",
+    metaFr:"30 pts (max 1 ouvrage)", metaAr:"30 نقطة (كتاب واحد كحد أقصى)",
+    pts:v=>v?30:0},
+  {id:'ouvrage-pedago-eng', cat:'activites-pedago', type:'checkbox',
+    labelFr:"… rédigé en anglais (bonus)", labelAr:"… مكتوب باللغة الإنجليزية (مكافأة)",
+    metaFr:"+10 pts", metaAr:"+10 نقاط",
+    pts:v=>v?10:0},
+
+  {id:'suivi-stagiaires', cat:'activites-pedago', type:'number', step:1, max:5,
+    labelFr:"Suivi d'étudiants stagiaires en entreprise", labelAr:"متابعة الطلبة المتدربين في الشركات",
+    metaFr:"6 pts/année, plafond 18 pts", metaAr:"6 نقاط/سنة، الحد الأقصى 18 نقطة",
+    unitFr:"années", unitAr:"سنوات",
+    pts:v=>Math.min(v*6, 18)},
+
+  {id:'projet-tutore', cat:'activites-pedago', type:'number', step:1, max:6,
+    labelFr:"Projet tutoré Université-Entreprise", labelAr:"مشروع موجه جامعة-مؤسسة",
+    metaFr:"5 pts/projet, attesté par le vice-recteur", metaAr:"5 نقاط/مشروع، بشهادة نائب المدير",
+    unitFr:"projets", unitAr:"مشاريع",
+    pts:v=>v*5},
+
+  {id:'animation-equipes', cat:'activites-pedago', type:'checkbox',
+    labelFr:"Animation d'équipes pédagogiques (séminaire, atelier, responsabilité)", labelAr:"تنشيط الفرق البيداغوجية (ندوة، ورشة، مسؤولية)",
+    metaFr:"5 pts au maximum", metaAr:"5 نقاط كحد أقصى",
+    pts:v=>v?5:0},
+
+  {id:'encadrement-master', cat:'activites-pedago', type:'number', step:1, max:10,
+    labelFr:"Encadrement de mémoire Master/Ingénieur", labelAr:"تأطير مذكرة ماستر/مهندس",
+    metaFr:"2 pts/mémoire, plafond 20 pts", metaAr:"2 نقاط/مذكرة، الحد الأقصى 20 نقطة",
+    unitFr:"mémoires", unitAr:"مذكرات",
+    pts:v=>Math.min(v*2, 20)},
+  {id:'encadrement-master-eng', cat:'activites-pedago', type:'checkbox',
+    labelFr:"… mémoire rédigé en anglais (bonus)", labelAr:"… مذكرة مكتوبة بالإنجليزية (مكافأة)",
+    metaFr:"+2 pts", metaAr:"+2 نقاط",
+    pts:v=>v?2:0},
+
+  {id:'encadrement-master-startup', cat:'activites-pedago', type:'number', step:1, max:4,
+    labelFr:"Encadrement Master lié au label startup/projet innovant", labelAr:"تأطير ماستر مرتبط بعلامة ستارت أب/مشروع مبتكر",
+    metaFr:"10 pts/master, plafond 40 pts", metaAr:"10 نقاط/ماستر، الحد الأقصى 40 نقطة",
+    unitFr:"masters", unitAr:"ماستر",
+    pts:v=>Math.min(v*10, 40)},
+
+  {id:'contenus-elearning', cat:'activites-pedago', type:'number', step:1, max:5,
+    labelFr:"Participation à des dispositifs e-learning (CNEAD, CIEL…)", labelAr:"المشاركة في أجهزة التعليم عن بعد (CNEAD، CIEL…)",
+    metaFr:"6 pts/année, plafond 30 pts", metaAr:"6 نقاط/سنة، الحد الأقصى 30 نقطة",
+    unitFr:"années", unitAr:"سنوات",
+    pts:v=>Math.min(v*6, 30)},
+  {id:'contenus-elearning-eng', cat:'activites-pedago', type:'number', step:1, max:5,
+    labelFr:"… dont contenus en anglais (bonus)", labelAr:"… منها محتويات بالإنجليزية (مكافأة)",
+    metaFr:"+2 pts/contenu, plafond 10 pts", metaAr:"+2 نقاط/محتوى، الحد الأقصى 10 نقاط",
+    unitFr:"contenus", unitAr:"محتويات",
+    pts:v=>Math.min(v*2, 10)},
+
+  {id:'ateliers-entrepreneuriat', cat:'activites-pedago', type:'checkbox',
+    labelFr:"Participation à des ateliers entrepreneuriat (CDE)", labelAr:"المشاركة في ورشات ريادة الأعمال (مركز تطوير ريادة الأعمال)",
+    metaFr:"5 pts", metaAr:"5 نقاط",
+    pts:v=>v?5:0},
+
+  {id:'etudiant-5etoiles', cat:'activites-pedago', type:'number', step:1, max:10,
+    labelFr:"Encadrement d'étudiant « 5 étoiles »", labelAr:"تأطير طالب «5 نجوم»",
+    metaFr:"5 pts/étudiant", metaAr:"5 نقاط/طالب",
+    unitFr:"étudiants", unitAr:"طلبة",
+    pts:v=>v*5},
+
+  // ---- 2.1 Publications & ouvrages ----
+  {id:'pub-aplus', cat:'publications', type:'number', step:1, max:5,
+    labelFr:"Publications de rang A+ (et plus)", labelAr:"منشورات من مرتبة A+ (وأعلى)",
+    metaFr:"180 pts/publication", metaAr:"180 نقطة/منشور",
+    unitFr:"publications", unitAr:"منشورات",
+    pts:v=>v*180},
+  {id:'pub-a', cat:'publications', type:'number', step:1, max:8,
+    labelFr:"Publications de rang A", labelAr:"منشورات من مرتبة A",
+    metaFr:"100 pts/publication", metaAr:"100 نقطة/منشور",
+    unitFr:"publications", unitAr:"منشورات",
+    pts:v=>v*100},
+  {id:'pub-b', cat:'publications', type:'number', step:1, max:10,
+    labelFr:"Publications de rang B", labelAr:"منشورات من مرتبة B",
+    metaFr:"50 pts/publication", metaAr:"50 نقطة/منشور",
+    unitFr:"publications", unitAr:"منشورات",
+    pts:v=>v*50},
+  {id:'pub-c', cat:'publications', type:'number', step:1, max:6,
+    labelFr:"Publications de rang C", labelAr:"منشورات من مرتبة C",
+    metaFr:"25 pts/publication, plafond 50 pts", metaAr:"25 نقطة/منشور، الحد الأقصى 50 نقطة",
+    unitFr:"publications", unitAr:"منشورات",
+    pts:v=>Math.min(v*25, 50)},
+  {id:'ouvrage-wos', cat:'publications', type:'number', step:1, max:4,
+    labelFr:"Ouvrages scientifiques indexés WOS/Scopus", labelAr:"كتب علمية مفهرسة في WOS/Scopus",
+    metaFr:"40 pts/ouvrage", metaAr:"40 نقطة/كتاب",
+    unitFr:"ouvrages", unitAr:"كتب",
+    pts:v=>v*40},
+  {id:'ouvrage-wos-eng', cat:'publications', type:'number', step:1, max:4,
+    labelFr:"… dont rédigés en anglais (bonus)", labelAr:"… منها مكتوبة بالإنجليزية (مكافأة)",
+    metaFr:"+20 pts/ouvrage", metaAr:"+20 نقطة/كتاب",
+    unitFr:"ouvrages", unitAr:"كتب",
+    pts:v=>v*20},
+  {id:'ouvrage-isbn', cat:'publications', type:'number', step:1, max:3,
+    labelFr:"Ouvrages scientifiques édités (ISBN, validés)", labelAr:"كتب علمية منشورة (ISBN، مصادق عليها)",
+    metaFr:"30 pts/ouvrage, plafond 60 pts", metaAr:"30 نقطة/كتاب، الحد الأقصى 60 نقطة",
+    unitFr:"ouvrages", unitAr:"كتب",
+    pts:v=>Math.min(v*30, 60)},
+  {id:'ouvrage-isbn-eng', cat:'publications', type:'number', step:1, max:2,
+    labelFr:"… dont rédigés en anglais (bonus)", labelAr:"… منها مكتوبة بالإنجليزية (مكافأة)",
+    metaFr:"+10 pts/ouvrage", metaAr:"+10 نقطة/كتاب",
+    unitFr:"ouvrages", unitAr:"كتب",
+    pts:v=>v*10},
+  {id:'chapitre-ouvrage', cat:'publications', type:'number', step:1, max:5,
+    labelFr:"Chapitres dans un ouvrage scientifique (comité de lecture)", labelAr:"فصول في كتاب علمي (لجنة قراءة)",
+    metaFr:"10 pts/chapitre", metaAr:"10 نقاط/فصل",
+    unitFr:"chapitres", unitAr:"فصول",
+    pts:v=>v*10},
+  {id:'chapitre-ouvrage-eng', cat:'publications', type:'number', step:1, max:5,
+    labelFr:"… dont rédigés en anglais (bonus)", labelAr:"… منها مكتوبة بالإنجليزية (مكافأة)",
+    metaFr:"+5 pts/chapitre", metaAr:"+5 نقاط/فصل",
+    unitFr:"chapitres", unitAr:"فصول",
+    pts:v=>v*5},
+
+  // ---- 2.2 Communications & colloques ----
+  {id:'comm-inter', cat:'communications', type:'number', step:1, max:10,
+    labelFr:"Communications internationales (auteur/intervenant principal)", labelAr:"مداخلات دولية (مؤلف/متدخل رئيسي)",
+    metaFr:"10 pts/communication, plafond 50 pts", metaAr:"10 نقاط/مداخلة، الحد الأقصى 50 نقطة",
+    unitFr:"communications", unitAr:"مداخلات",
+    pts:v=>Math.min(v*10, 50)},
+  {id:'comm-inter-indexe', cat:'communications', type:'number', step:1, max:10,
+    labelFr:"… dont actes indexés WOS/Scopus (bonus)", labelAr:"… منها أعمال مفهرسة في WOS/Scopus (مكافأة)",
+    metaFr:"+5 pts/communication", metaAr:"+5 نقاط/مداخلة",
+    unitFr:"communications", unitAr:"مداخلات",
+    pts:v=>v*5},
+  {id:'comm-nat', cat:'communications', type:'number', step:1, max:6,
+    labelFr:"Communications nationales (auteur/intervenant principal)", labelAr:"مداخلات وطنية (مؤلف/متدخل رئيسي)",
+    metaFr:"5 pts/communication, plafond 25 pts", metaAr:"5 نقاط/مداخلة، الحد الأقصى 25 نقطة",
+    unitFr:"communications", unitAr:"مداخلات",
+    pts:v=>Math.min(v*5, 25)},
+
+  {id:'colloque-inter-president', cat:'communications', type:'number', step:1, max:3,
+    labelFr:"Président de colloque international", labelAr:"رئيس ملتقى دولي",
+    metaFr:"15 pts, plafond 30 pts", metaAr:"15 نقطة، الحد الأقصى 30 نقطة",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*15, 30)},
+  {id:'colloque-inter-pres-comm', cat:'communications', type:'number', step:1, max:6,
+    labelFr:"… + communications indexées WOS/Scopus (bonus président)", labelAr:"… + مداخلات مفهرسة WOS/Scopus (مكافأة الرئيس)",
+    metaFr:"+5 pts/communication", metaAr:"+5 نقاط/مداخلة",
+    unitFr:"communications", unitAr:"مداخلات",
+    pts:v=>v*5},
+
+  {id:'colloque-inter-cs', cat:'communications', type:'number', step:1, max:2,
+    labelFr:"Président du comité scientifique (colloque international)", labelAr:"رئيس اللجنة العلمية (ملتقى دولي)",
+    metaFr:"10 pts, plafond 20 pts", metaAr:"10 نقاط، الحد الأقصى 20 نقطة",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*10, 20)},
+  {id:'colloque-inter-cs-comm', cat:'communications', type:'number', step:1, max:6,
+    labelFr:"… + communications indexées (bonus président CS)", labelAr:"… + مداخلات مفهرسة (مكافأة رئيس اللجنة العلمية)",
+    metaFr:"+3 pts/communication", metaAr:"+3 نقاط/مداخلة",
+    unitFr:"communications", unitAr:"مداخلات",
+    pts:v=>v*3},
+
+  {id:'colloque-inter-co', cat:'communications', type:'number', step:1, max:2,
+    labelFr:"Président du comité d'organisation (colloque international)", labelAr:"رئيس لجنة التنظيم (ملتقى دولي)",
+    metaFr:"5 pts, plafond 10 pts", metaAr:"5 نقاط، الحد الأقصى 10 نقاط",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*5, 10)},
+  {id:'colloque-inter-co-comm', cat:'communications', type:'number', step:1, max:6,
+    labelFr:"… + communications indexées (bonus président CO)", labelAr:"… + مداخلات مفهرسة (مكافأة رئيس لجنة التنظيم)",
+    metaFr:"+2 pts/communication", metaAr:"+2 نقاط/مداخلة",
+    unitFr:"communications", unitAr:"مداخلات",
+    pts:v=>v*2},
+
+  {id:'colloque-inter-membre', cat:'communications', type:'number', step:1, max:2,
+    labelFr:"Membre comité scientifique/organisation (colloque international)", labelAr:"عضو اللجنة العلمية/التنظيم (ملتقى دولي)",
+    metaFr:"1 pt, plafond 2 pts", metaAr:"1 نقطة، الحد الأقصى 2 نقطتين",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*1, 2)},
+
+  {id:'colloque-nat-president', cat:'communications', type:'number', step:1, max:2,
+    labelFr:"Président de colloque national", labelAr:"رئيس ملتقى وطني",
+    metaFr:"10 pts, plafond 20 pts", metaAr:"10 نقاط، الحد الأقصى 20 نقطة",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*10, 20)},
+  {id:'colloque-nat-cs', cat:'communications', type:'number', step:1, max:2,
+    labelFr:"Président du comité scientifique (colloque national)", labelAr:"رئيس اللجنة العلمية (ملتقى وطني)",
+    metaFr:"5 pts, plafond 10 pts", metaAr:"5 نقاط، الحد الأقصى 10 نقاط",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*5, 10)},
+  {id:'colloque-nat-co', cat:'communications', type:'number', step:1, max:2,
+    labelFr:"Président du comité d'organisation (colloque national)", labelAr:"رئيس لجنة التنظيم (ملتقى وطني)",
+    metaFr:"3 pts, plafond 6 pts", metaAr:"3 نقاط، الحد الأقصى 6 نقاط",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*3, 6)},
+  {id:'colloque-nat-membre', cat:'communications', type:'number', step:1, max:2,
+    labelFr:"Membre comité scientifique/organisation (colloque national)", labelAr:"عضو اللجنة العلمية/التنظيم (ملتقى وطني)",
+    metaFr:"1 pt, plafond 2 pts", metaAr:"1 نقطة، الحد الأقصى 2 نقطتين",
+    unitFr:"colloques", unitAr:"ملتقيات",
+    pts:v=>Math.min(v*1, 2)},
+
+  // ---- 2.3 Brevets ----
+  {id:'brevet-ompi-exploite', cat:'brevets', type:'number', step:1, max:3,
+    labelFr:"Brevet PCT/OMPI exploité", labelAr:"براءة اختراع PCT/OMPI مستغلة",
+    metaFr:"80 pts/brevet", metaAr:"80 نقطة/براءة",
+    unitFr:"brevets", unitAr:"براءات",
+    pts:v=>v*80},
+  {id:'brevet-ompi-enregistre', cat:'brevets', type:'number', step:1, max:3,
+    labelFr:"Brevet PCT/OMPI enregistré et publié (non exploité)", labelAr:"براءة اختراع PCT/OMPI مسجلة ومنشورة (غير مستغلة)",
+    metaFr:"60 pts/brevet", metaAr:"60 نقطة/براءة",
+    unitFr:"brevets", unitAr:"براءات",
+    pts:v=>v*60},
+  {id:'brevet-inapi', cat:'brevets', type:'number', step:1, max:3,
+    labelFr:"Brevet INAPI enregistré et publié", labelAr:"براءة اختراع INAPI مسجلة ومنشورة",
+    metaFr:"30 pts/brevet", metaAr:"30 نقطة/براءة",
+    unitFr:"brevets", unitAr:"براءات",
+    pts:v=>v*30},
+
+  // ---- 2.4 Encadrement doctoral ----
+  {id:'these-soutenue', cat:'encadrement', type:'number', step:1, max:5,
+    labelFr:"Encadrement de thèse soutenue (1ère inscription → soutenance)", labelAr:"تأطير أطروحة ممنوحة (من التسجيل الأول إلى المناقشة)",
+    metaFr:"40 pts/thèse", metaAr:"40 نقطة/أطروحة",
+    unitFr:"thèses", unitAr:"أطروحات",
+    pts:v=>v*40},
+  {id:'these-coencadrement', cat:'encadrement', type:'number', step:1, max:5,
+    labelFr:"Co-encadrement de thèse soutenue", labelAr:"تأطير مشترك لأطروحة ممنوحة",
+    metaFr:"20 pts/thèse", metaAr:"20 نقطة/أطروحة",
+    unitFr:"thèses", unitAr:"أطروحات",
+    pts:v=>v*20},
+  {id:'these-eng', cat:'encadrement', type:'number', step:1, max:5,
+    labelFr:"… dont thèses rédigées et soutenues en anglais (bonus)", labelAr:"… منها أطروحات مكتوبة وممنوحة بالإنجليزية (مكافأة)",
+    metaFr:"+10 pts/thèse", metaAr:"+10 نقطة/أطروحة",
+    unitFr:"thèses", unitAr:"أطروحات",
+    pts:v=>v*10},
+  {id:'magister-soutenu', cat:'encadrement', type:'number', step:1, max:5,
+    labelFr:"Encadrement de magister soutenu", labelAr:"تأطير ماجستير ممنوح",
+    metaFr:"10 pts/magister", metaAr:"10 نقاط/ماجستير",
+    unitFr:"magisters", unitAr:"ماجستير",
+    pts:v=>v*10},
+
+  // ---- 2.5 Projets, expertise & autres ----
+  {id:'cooperation-chef', cat:'projets', type:'number', step:1, max:5,
+    labelFr:"Projet de coopération internationale — Chef de projet", labelAr:"مشروع تعاون دولي — رئيس مشروع",
+    metaFr:"30 pts/projet", metaAr:"30 نقطة/مشروع",
+    unitFr:"projets", unitAr:"مشاريع",
+    pts:v=>v*30},
+  {id:'cooperation-membre', cat:'projets', type:'number', step:1, max:5,
+    labelFr:"Projet de coopération internationale — Membre", labelAr:"مشروع تعاون دولي — عضو",
+    metaFr:"15 pts/projet", metaAr:"15 نقطة/مشروع",
+    unitFr:"projets", unitAr:"مشاريع",
+    pts:v=>v*15},
+  {id:'expertise', cat:'projets', type:'number', step:1, max:4,
+    labelFr:"Participation aux activités scientifiques (expertise, jurys, évaluation)", labelAr:"المشاركة في الأنشطة العلمية (الخبرة، اللجان، التقييم)",
+    metaFr:"5 pts/participation, plafond 10 pts", metaAr:"5 نقاط/مشاركة، الحد الأقصى 10 نقاط",
+    unitFr:"participations", unitAr:"مشاركات",
+    pts:v=>Math.min(v*5, 10)},
+  {id:'pnr-chef', cat:'projets', type:'number', step:1, max:3,
+    labelFr:"Projet PNR (sécurité énerg./sanit./alim.) — Chef de projet", labelAr:"مشروع PNR (أمن طاقوي/صحي/غذائي) — رئيس مشروع",
+    metaFr:"20 pts/projet (+5 pts bonus inclus)", metaAr:"20 نقطة/مشروع (+5 نقاط مكافأة مضمنة)",
+    unitFr:"projets", unitAr:"مشاريع",
+    pts:v=>v*20},
+  {id:'pnr-membre', cat:'projets', type:'number', step:1, max:3,
+    labelFr:"Projet PNR (sécurité énerg./sanit./alim.) — Membre", labelAr:"مشروع PNR (أمن طاقوي/صحي/غذائي) — عضو",
+    metaFr:"10 pts/projet (+5 pts bonus inclus)", metaAr:"10 نقاط/مشروع (+5 نقاط مكافأة مضمنة)",
+    unitFr:"projets", unitAr:"مشاريع",
+    pts:v=>v*10},
+  {id:'bureaux-etudes', cat:'projets', type:'number', step:1, max:2,
+    labelFr:"Participation aux bureaux d'études / filiales économiques", labelAr:"المشاركة في مكاتب الدراسات/الفروع الاقتصادية",
+    metaFr:"plafond 10 pts (estimation libre)", metaAr:"الحد الأقصى 10 نقاط (تقدير حر)",
+    unitFr:"pts", unitAr:"نقاط",
+    pts:v=>Math.min(v, 10)},
+  {id:'startup-participation', cat:'projets', type:'number', step:1, max:4,
+    labelFr:"Participation à la création d'une start-up / projet innovant", labelAr:"المشاركة في إنشاء ستارت أب/مشروع مبتكر",
+    metaFr:"20 pts/participation", metaAr:"20 نقطة/مشاركة",
+    unitFr:"participations", unitAr:"مشاركات",
+    pts:v=>v*20},
+  {id:'contribution-societe', cat:'projets', type:'number', step:1, max:4,
+    labelFr:"Contribution à la société (diffusion culture scientifique)", labelAr:"المساهمة في المجتمع (نشر الثقافة العلمية)",
+    metaFr:"5 pts/participation, plafond 10 pts", metaAr:"5 نقاط/مشاركة، الحد الأقصى 10 نقاط",
+    unitFr:"participations", unitAr:"مشاركات",
+    pts:v=>Math.min(v*5, 10)},
+  {id:'contribution-universitaire', cat:'projets', type:'number', step:1, max:4,
+    labelFr:"Contribution à la vie universitaire (organes scientifiques/pédagogiques)", labelAr:"المساهمة في الحياة الجامعية (الهيئات العلمية/البيداغوجية)",
+    metaFr:"5 pts/participation, plafond 10 pts", metaAr:"5 نقاط/مشاركة، الحد الأقصى 10 نقاط",
+    unitFr:"participations", unitAr:"مشاركات",
+    pts:v=>Math.min(v*5, 10)},
+  {id:'prix-distinctions', cat:'projets', type:'number', step:1, max:3,
+    labelFr:"Prix, distinctions honorifiques et récompenses", labelAr:"جوائز وأوسمة تقديرية ومكافآت",
+    metaFr:"30 pts/prix", metaAr:"30 نقطة/جائزة",
+    unitFr:"prix", unitAr:"جوائز",
+    pts:v=>v*30},
+  {id:'membre-organismes-sci', cat:'projets', type:'number', step:1, max:3,
+    labelFr:"Membre d'organismes scientifiques internationaux", labelAr:"عضو هيئات علمية دولية",
+    metaFr:"30 pts/organisme", metaAr:"30 نقطة/هيئة",
+    unitFr:"organismes", unitAr:"هيئات",
+    pts:v=>v*30}
+];
+
+/* ============================================================
+   BUILD FIELD ROWS
+   ============================================================ */
+function buildFields(){
+  const byCat = {};
+  FIELDS.forEach(f=>{ (byCat[f.cat] = byCat[f.cat]||[]).push(f); });
+  Object.keys(byCat).forEach(cat=>{
+    const container = document.getElementById('cat-'+cat);
+    byCat[cat].forEach(f=>{
+      const row = document.createElement('div');
+      row.className = 'field-row';
+      row.id = 'row-'+f.id;
+
+      const labelDiv = document.createElement('div');
+      labelDiv.className = 'field-label';
+      labelDiv.innerHTML = `<span class="lbl" data-fr="${escAttr(f.labelFr)}" data-ar="${escAttr(f.labelAr)}">${f.labelFr}</span><span class="meta" data-fr="${escAttr(f.metaFr)}" data-ar="${escAttr(f.metaAr)}">${f.metaFr}</span>`;
+
+      const inputDiv = document.createElement('div');
+      inputDiv.className = 'field-input';
+
+      if(f.type === 'checkbox'){
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = 'fld-'+f.id;
+        cb.addEventListener('change', ()=>updateField(f.id, cb.checked));
+        inputDiv.appendChild(cb);
+      } else {
+        const num = document.createElement('input');
+        num.type = 'number';
+        num.id = 'fld-'+f.id;
+        num.min = 0;
+        num.max = f.max || 99;
+        num.step = f.step || 1;
+        num.value = 0;
+        num.inputMode = 'numeric';
+        num.addEventListener('input', ()=>{
+          let v = parseFloat(num.value);
+          if(isNaN(v) || v < 0) v = 0;
+          updateField(f.id, v);
+        });
+        inputDiv.appendChild(num);
+        const unit = document.createElement('span');
+        unit.className = 'unit';
+        unit.dataset.fr = f.unitFr || '';
+        unit.dataset.ar = f.unitAr || '';
+        unit.textContent = f.unitFr || '';
+        inputDiv.appendChild(unit);
+      }
+
+      const ptsSpan = document.createElement('div');
+      ptsSpan.className = 'field-pts';
+      ptsSpan.id = 'pts-'+f.id;
+      ptsSpan.textContent = '0';
+
+      row.appendChild(labelDiv);
+      row.appendChild(inputDiv);
+      row.appendChild(ptsSpan);
+      container.appendChild(row);
+
+      state.fields[f.id] = 0;
+    });
+  });
+}
+function escAttr(s){ return s.replace(/"/g,'&quot;'); }
+
+function updateField(id, val){
+  state.fields[id] = val;
+  const f = FIELDS.find(x=>x.id===id);
+  const p = f.pts(typeof val === 'boolean' ? (val?1:0) : val);
+  document.getElementById('pts-'+id).textContent = p;
+  recomputeCategory(f.cat);
+  renderThresholds();
+  renderTally();
+}
+
+function recomputeCategory(cat){
+  let total = 0;
+  FIELDS.filter(f=>f.cat===cat).forEach(f=>{
+    const v = state.fields[f.id];
+    total += f.pts(typeof v === 'boolean' ? (v?1:0) : v);
+  });
+  const el = document.querySelector('.cat-total[data-cat="'+cat+'"]');
+  if(el) el.textContent = total + ' pts';
+}
+
+/* ============================================================
+   THRESHOLDS / RESULTS for step 2 & 3
+   ============================================================ */
+function categoryTotal(cats){
+  let total = 0;
+  FIELDS.filter(f=>cats.includes(f.cat)).forEach(f=>{
+    const v = state.fields[f.id];
+    total += f.pts(typeof v === 'boolean' ? (v?1:0) : v);
+  });
+  return total;
+}
+
+function renderThresholds(){
+  const pedagoTotal = categoryTotal(['enseignements','activites-pedago']);
+  const pedagoRes = document.getElementById('pedago-result');
+  pedagoRes.className = 'result-banner ' + (pedagoTotal >= 150 ? 'ok' : 'no');
+  pedagoRes.querySelector('.icon').textContent = pedagoTotal >= 150 ? '✓' : '✕';
+  pedagoRes.querySelector('span:last-child').textContent = lang==='ar'
+    ? `إجمالي البيداغوجيا: ${pedagoTotal} / 150 نقطة (الحد الأدنى).`
+    : `Total Pédagogie : ${pedagoTotal} / 150 pts (seuil minimal).`;
+
+  const rechTotal = categoryTotal(['publications','communications','brevets','encadrement','projets']);
+  const threshold = state.domain === 'shs' ? 200 : 250;
+  const rechRes = document.getElementById('recherche-result');
+  rechRes.className = 'result-banner ' + (rechTotal >= threshold ? 'ok' : 'no');
+  rechRes.querySelector('.icon').textContent = rechTotal >= threshold ? '✓' : '✕';
+  rechRes.querySelector('span:last-child').textContent = lang==='ar'
+    ? `إجمالي البحث: ${rechTotal} / ${threshold} نقطة (الحد الأدنى${state.domain ? '' : ' — افتراضي العلوم والتكنولوجيا'}).`
+    : `Total Recherche : ${rechTotal} / ${threshold} pts (seuil minimal${state.domain ? '' : ' — par défaut Sciences & Techno.'}).`;
+
+  state._pedagoTotal = pedagoTotal;
+  state._rechTotal = rechTotal;
+  state._rechThreshold = threshold;
+}
+
+/* ============================================================
+   FONCTION (Step 4)
+   ============================================================ */
+const FONCTION_PTS = {decret:10, arrete:6, decision:3, none:0};
+function setFonction(val){
+  state.fonction = val;
+  ['decret','arrete','decision','none'].forEach(k=>{
+    document.getElementById('opt-fonction-'+k).classList.toggle('checked', val===k);
+    document.getElementById('fonction-'+k).checked = val===k;
+  });
+  renderSummary();
+  renderTally();
+}
+
+/* ============================================================
+   SUMMARY (Step 4)
+   ============================================================ */
+function renderSummary(){
+  renderThresholds();
+  const container = document.getElementById('summary-content');
+  const fonctionPts = state.fonction ? FONCTION_PTS[state.fonction] : 0;
+  const adminLine = state.adminOk === null ? (lang==='ar'?'غير محدد':'non renseignée')
+    : (state.adminOk ? (lang==='ar'?'مستوفاة':'remplie') : (lang==='ar'?'غير مستوفاة':'non remplie'));
+
+  let variantText = lang==='ar' ? 'لم يتم اختيار مجال' : 'Aucun domaine sélectionné';
+  if(state.domain){
+    let sat = false, label='';
+    if(state.domain==='st'){
+      const v1 = !!(state.checks['st-v1-pub'] && state.checks['st-v1-enc']);
+      const v2 = !!(state.checks['st-v2-pub'] && state.checks['st-v2-enc']);
+      sat = v1||v2; label = v1 ? 'Variante 1' : (v2 ? 'Variante 2' : '');
+    } else {
+      const v1 = !!(state.checks['shs-v1-pub'] && state.checks['shs-v1-enc']);
+      const v2 = !!(state.checks['shs-v2-pub'] && state.checks['shs-v2-enc']);
+      sat = v1||v2; label = v1 ? 'Variante 1' : (v2 ? 'Variante 2' : '');
+    }
+    if(sat){
+      variantText = lang==='ar' ? `مستوفاة (${label==='Variante 1'?'الصيغة 1':'الصيغة 2'})` : `Satisfaite (${label})`;
+    } else {
+      variantText = lang==='ar' ? 'غير مستوفاة' : 'Non satisfaite';
+    }
+  }
+
+  const pedago = state._pedagoTotal || 0;
+  const rech = state._rechTotal || 0;
+  const threshold = state._rechThreshold || (state.domain==='shs'?200:250);
+  const grandTotal = pedago + rech + fonctionPts;
+
+  const eligible = state.adminOk===true && variantText.toString().indexOf(lang==='ar'?'مستوفاة':'Satisfaite')===0
+    && pedago>=150 && rech>=threshold;
+
+  const rows = lang==='ar' ? [
+    ['الشرط الإداري (5 سنوات)', adminLine],
+    ['القبول العلمي', variantText],
+    ['نقاط البيداغوجيا', `${pedago} / 150`],
+    [`نقاط البحث`, `${rech} / ${threshold}`],
+    ['نقاط المسؤولية الإدارية', `${fonctionPts}`],
+    ['المجموع العام (بيداغوجيا + بحث + إداري)', `${grandTotal}`],
+  ] : [
+    ['Condition administrative (5 ans)', adminLine],
+    ['Recevabilité scientifique', variantText],
+    ['Points Pédagogie', `${pedago} / 150`],
+    ['Points Recherche', `${rech} / ${threshold}`],
+    ['Points fonction administrative', `${fonctionPts}`],
+    ['Total général (pédagogie + recherche + administratif)', `${grandTotal}`],
+  ];
+
+  container.innerHTML = rows.map(r=>`
+    <div class="field-row">
+      <div class="field-label"><span class="lbl">${r[0]}</span></div>
+      <div class="field-pts" style="font-family:inherit;">${r[1]}</div>
+    </div>
+  `).join('');
+
+  const banner = document.createElement('div');
+  banner.className = 'result-banner ' + (eligible ? 'ok' : 'no');
+  banner.style.marginTop = '14px';
+  banner.innerHTML = `<span class="icon">${eligible ? '✓' : '✕'}</span><span>${
+    eligible
+      ? (lang==='ar' ? 'الملف يستوفي جميع الشروط الدنيا للترقية إلى رتبة أستاذ.' : 'Le dossier remplit toutes les conditions minimales pour la promotion au grade de Professeur.')
+      : (lang==='ar' ? 'الملف لا يستوفي حالياً جميع الشروط الدنيا. راجع الأقسام أعلاه.' : "Le dossier ne remplit pas encore toutes les conditions minimales. Vérifiez les sections ci-dessus.")
+  }</span>`;
+  container.appendChild(banner);
+}
+
+/* ============================================================
+   STICKY TALLY
+   ============================================================ */
+function renderTally(){
+  renderThresholds();
+  const pedago = state._pedagoTotal || 0;
+  const rech = state._rechTotal || 0;
+  const threshold = state._rechThreshold || (state.domain==='shs'?200:250);
+  const fonctionPts = state.fonction ? FONCTION_PTS[state.fonction] : 0;
+
+  const pedagoPct = Math.min(pedago/150, 1);
+  const rechPct = Math.min(rech/threshold, 1);
+  const overallPct = (pedagoPct + rechPct) / 2;
+
+  const circumference = 2 * Math.PI * 22; // ~138.2
+  const dash = (overallPct * circumference).toFixed(1);
+  const ring = document.getElementById('ring-fg');
+  ring.setAttribute('stroke-dasharray', dash + ' ' + circumference.toFixed(1));
+  ring.classList.toggle('complete', overallPct >= 1);
+  document.getElementById('ring-label').textContent = Math.round(overallPct*100) + '%';
+
+  const verdictEl = document.getElementById('tally-verdict');
+  const breakdownEl = document.getElementById('tally-breakdown');
+
+  let eligibleSci = false;
+  if(state.domain==='st'){
+    eligibleSci = !!((state.checks['st-v1-pub'] && state.checks['st-v1-enc']) || (state.checks['st-v2-pub'] && state.checks['st-v2-enc']));
+  } else if(state.domain==='shs'){
+    eligibleSci = !!((state.checks['shs-v1-pub'] && state.checks['shs-v1-enc']) || (state.checks['shs-v2-pub'] && state.checks['shs-v2-enc']));
+  }
+  const allOk = state.adminOk===true && eligibleSci && pedago>=150 && rech>=threshold;
+
+  if(state.adminOk===null && state.domain===null && pedago===0 && rech===0){
+    verdictEl.className = 'verdict';
+    verdictEl.textContent = lang==='ar' ? 'ابدأ بتقييم ملفكم' : "Commencez l'évaluation de votre dossier";
+  } else if(allOk){
+    verdictEl.className = 'verdict ok';
+    verdictEl.textContent = lang==='ar' ? '✓ الملف مقبول' : '✓ Dossier admissible';
+  } else {
+    verdictEl.className = 'verdict no';
+    verdictEl.textContent = lang==='ar' ? 'الملف غير مكتمل / غير مقبول حتى الآن' : 'Dossier incomplet / non admissible pour le moment';
+  }
+
+  breakdownEl.innerHTML = lang==='ar'
+    ? `البيداغوجيا: <b>${pedago}</b>/150 &nbsp;•&nbsp; البحث: <b>${rech}</b>/${threshold} &nbsp;•&nbsp; الإداري: <b>${fonctionPts}</b>`
+    : `Pédagogie : <b>${pedago}</b>/150 &nbsp;•&nbsp; Recherche : <b>${rech}</b>/${threshold} &nbsp;•&nbsp; Admin. : <b>${fonctionPts}</b>`;
+
+  if(document.getElementById('panel-4').classList.contains('active')){
+    renderSummary();
+  }
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+function resetAll(){
+  if(!confirm(lang==='ar' ? 'هل تريد إعادة تعيين كل البيانات؟' : 'Réinitialiser toutes les données ?')) return;
+  location.reload();
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+buildFields();
+renderThresholds();
+renderTally();
+</script>
+</body>
+</html>
